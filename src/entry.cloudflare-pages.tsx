@@ -18,7 +18,9 @@ import type { KVNamespace } from "@cloudflare/workers-types";
 
 declare global {
   interface QwikCityPlatform extends PlatformCloudflarePages {
-    BOJ: KVNamespace;
+    env: {
+      BOJ: KVNamespace;
+    };
   }
 }
 

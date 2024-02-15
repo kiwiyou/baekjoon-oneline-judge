@@ -64,11 +64,11 @@ export const getRandomProblem = async (
 };
 
 export const useFirstProblem = routeLoader$(async ({ platform }) => {
-  return getRandomProblem(platform.BOJ);
+  return getRandomProblem(platform.env.BOJ);
 });
 
 const getRandomProblemAction = server$(async function () {
-  return getRandomProblem(this.platform.BOJ);
+  return getRandomProblem(this.platform.env.BOJ);
 });
 
 type Problem = {
