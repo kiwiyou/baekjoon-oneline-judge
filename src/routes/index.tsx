@@ -9,7 +9,6 @@ import {
   type DocumentHead,
   routeLoader$,
   server$,
-  RequestEventBase,
 } from "@builder.io/qwik-city";
 import type { KVNamespace } from "@cloudflare/workers-types";
 import * as cheerio from "cheerio";
@@ -27,48 +26,49 @@ function randomId() {
   return Math.floor(Math.random() * (maxId - 1000)) + 1000;
 }
 
-export const getRandomProblem = server$(
-  async function (): Promise<Problem | null> {
-    const maxId = +(import.meta.env.PUBLIC_MAX_ID || "30000");
-    const { BOJ } = this.platform as unknown as { BOJ: KVNamespace };
-    // eslint-disable-next-line
-    while (true) {
-      const id = (Math.floor(Math.random() * (maxId - 1000)) + 1000).toString();
-      let text = (await BOJ.get(id)) || null;
-      let title = (await BOJ.get(`${id}-title`)) || null;
-      if (text === null || title === null) {
-        const request = await fetch(`https://www.acmicpc.net/problem/${id}`);
-        if (request.status !== 200) continue;
-        const $ = cheerio.load(await request.text());
-        text = $("#problem_description").prop("innerText");
-        if (!text) return null;
-        title = $("#problem_title").prop("innerHTML");
-        if (!title) return null;
-        await BOJ.put(id, text);
-        await BOJ.put(`${id}-title`, title);
-      }
-      const lines = [];
-      for (const match of text.matchAll(/[^.。．]+[.。．]/g)) {
-        const line = match[0].trim();
-        if (line.length) lines.push(line);
-      }
-      if (lines.length === 0) {
-        lines.push("");
-      }
-      const random = Math.floor(Math.random() * lines.length);
-      return {
-        id,
-        title,
-        line: lines[random],
-      };
+export const getRandomProblem = async (
+  BOJ: KVNamespace,
+): Promise<Problem | null> => {
+  const maxId = +(import.meta.env.PUBLIC_MAX_ID || "30000");
+  // eslint-disable-next-line
+  while (true) {
+    const id = (Math.floor(Math.random() * (maxId - 1000)) + 1000).toString();
+    let text = (await BOJ.get(id)) || null;
+    let title = (await BOJ.get(`${id}-title`)) || null;
+    if (text === null || title === null) {
+      const request = await fetch(`https://www.acmicpc.net/problem/${id}`);
+      if (request.status !== 200) continue;
+      const $ = cheerio.load(await request.text());
+      text = $("#problem_description").prop("innerText");
+      if (!text) return null;
+      title = $("#problem_title").prop("innerHTML");
+      if (!title) return null;
+      await BOJ.put(id, text);
+      await BOJ.put(`${id}-title`, title);
     }
-  },
-);
+    const lines = [];
+    for (const match of text.matchAll(/[^.。．]+[.。．]/g)) {
+      const line = match[0].trim();
+      if (line.length) lines.push(line);
+    }
+    if (lines.length === 0) {
+      lines.push("");
+    }
+    const random = Math.floor(Math.random() * lines.length);
+    return {
+      id,
+      title,
+      line: lines[random],
+    };
+  }
+};
 
-export const useFirstProblem = routeLoader$(async function (
-  this: RequestEventBase,
-) {
-  return getRandomProblem.bind(this)();
+export const useFirstProblem = routeLoader$(async ({ platform }) => {
+  return getRandomProblem(platform.BOJ);
+});
+
+const getRandomProblemAction = server$(async function () {
+  return getRandomProblem(this.platform.BOJ);
 });
 
 type Problem = {
@@ -128,7 +128,7 @@ export default component$(() => {
         },
         ...submissions.value,
       ];
-      if (result === "ac") problem.value = await getRandomProblem();
+      if (result === "ac") problem.value = await getRandomProblemAction();
       problemId.value = "";
       problemTitle.value = "";
     }
@@ -166,7 +166,7 @@ export default component$(() => {
             type="button"
             class="ghost pointer"
             onClick$={async () => {
-              problem.value = await getRandomProblem();
+              problem.value = await getRandomProblemAction();
             }}
           >
             문제 변경
