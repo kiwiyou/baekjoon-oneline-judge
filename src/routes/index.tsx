@@ -10,7 +10,7 @@ import {
   routeLoader$,
   server$,
 } from "@builder.io/qwik-city";
-import { createClient } from "redis";
+import type { KVNamespace } from "@cloudflare/workers-types";
 import * as cheerio from "cheerio";
 
 type Submission = {
@@ -26,22 +26,15 @@ function randomId() {
   return Math.floor(Math.random() * (maxId - 1000)) + 1000;
 }
 
-let db!: ReturnType<typeof createClient>;
-
 export const getRandomProblem = server$(
   async function (): Promise<Problem | null> {
-    // eslint-disable-next-line
-    if (!db) {
-      db = await createClient({
-        url: this.env.get("REDIS_URL") || "",
-      }).connect();
-    }
     const maxId = +(import.meta.env.PUBLIC_MAX_ID || "30000");
+    const { BOJ } = this.platform as unknown as { BOJ: KVNamespace };
     // eslint-disable-next-line
     while (true) {
       const id = (Math.floor(Math.random() * (maxId - 1000)) + 1000).toString();
-      let text = (await db.get(id)) || null;
-      let title = (await db.get(`${id}-title`)) || null;
+      let text = (await BOJ.get(id)) || null;
+      let title = (await BOJ.get(`${id}-title`)) || null;
       if (text === null || title === null) {
         const request = await fetch(`https://www.acmicpc.net/problem/${id}`);
         if (request.status !== 200) continue;
@@ -50,8 +43,8 @@ export const getRandomProblem = server$(
         if (!text) return null;
         title = $("#problem_title").prop("innerHTML");
         if (!title) return null;
-        await db.set(id, text);
-        await db.set(`${id}-title`, title);
+        await BOJ.put(id, text);
+        await BOJ.put(`${id}-title`, title);
       }
       const lines = [];
       for (const match of text.matchAll(/[^.。．]+[.。．]/g)) {

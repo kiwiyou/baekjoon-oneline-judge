@@ -30,6 +30,7 @@
     "@biomejs/biome": "^1.5.3",
     "@builder.io/qwik": "^1.4.5",
     "@builder.io/qwik-city": "^1.4.5",
+    "@cloudflare/workers-types": "^4.20240208.0",
     "@types/eslint": "^8.56.2",
     "@types/node": "^20.11.6",
     "@typescript-eslint/eslint-plugin": "^6.19.1",
