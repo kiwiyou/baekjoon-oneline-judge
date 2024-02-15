@@ -19,7 +19,13 @@ export default component$(() => {
       <nav class="nav">
         <div class="container">
           <a href="/">
-            <img src={Logo} width="60" height="209.5" class="logo" alt="baekjoon-oneline-judge" />
+            <img
+              src={Logo}
+              width="267"
+              height="60"
+              class="logo"
+              alt="baekjoon-oneline-judge"
+            />
           </a>
         </div>
       </nav>
