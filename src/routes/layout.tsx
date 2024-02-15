@@ -1,6 +1,6 @@
 import { component$, Slot } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
-import Logo from "~/media/baekjoon-oneline-judge.png?jsx";
+import Logo from "~/media/baekjoon-oneline-judge.png?url";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -19,7 +19,7 @@ export default component$(() => {
       <nav class="nav">
         <div class="container">
           <a href="/">
-            <Logo class="logo" alt="baekjoon-oneline-judge" />
+            <img src={Logo} width="60" height="209.5" class="logo" alt="baekjoon-oneline-judge" />
           </a>
         </div>
       </nav>
