@@ -4,6 +4,10 @@
     color: #333;
 }
 
+.logo {
+    height: 60px;
+}
+
 .container {
     max-width: 1170px;
     margin: auto;

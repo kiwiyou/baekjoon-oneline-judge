@@ -16,5 +16,8 @@ export default defineConfig((): UserConfig => {
         "Cache-Control": "public, max-age=600",
       },
     },
+    ssr: {
+      external: ["crypto", "events", "url", "util", "net", "tls", "string_decoder"],
+    },
   };
 });
