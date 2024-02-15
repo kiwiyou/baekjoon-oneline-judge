@@ -87,7 +87,7 @@ export default component$(() => {
   const currentProblem = problem.value;
   // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(({ track }) => {
-    track(() => problem.value?.line);
+    track(() => problem.value?.line || true);
     (window as any).renderMathInElement(document.getElementById("line"), {
       delimiters: [
         { left: "$$", right: "$$", display: true },
