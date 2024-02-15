@@ -16,8 +16,48 @@ export default defineConfig((): UserConfig => {
         "Cache-Control": "public, max-age=600",
       },
     },
+    resolve: {
+      alias: [
+        {
+          find: "crypto",
+          replacement: "node:crypto",
+        },
+        {
+          find: "events",
+          replacement: "node:events",
+        },
+        {
+          find: "url",
+          replacement: "node:url",
+        },
+        {
+          find: "util",
+          replacement: "node:util",
+        },
+        {
+          find: "net",
+          replacement: "node:net",
+        },
+        {
+          find: "tls",
+          replacement: "node:tls",
+        },
+        {
+          find: "string_decoder",
+          replacement: "node:string_decoder",
+        },
+      ],
+    },
     ssr: {
-      external: ["crypto", "events", "url", "util", "net", "tls", "string_decoder"],
+      external: [
+        "node:crypto",
+        "node:events",
+        "node:url",
+        "node:util",
+        "node:net",
+        "node:tls",
+        "node:string_decoder",
+      ],
     },
   };
 });
