@@ -9,6 +9,7 @@ import {
   type DocumentHead,
   routeLoader$,
   server$,
+  RequestEventBase,
 } from "@builder.io/qwik-city";
 import type { KVNamespace } from "@cloudflare/workers-types";
 import * as cheerio from "cheerio";
@@ -64,8 +65,10 @@ export const getRandomProblem = server$(
   },
 );
 
-export const useFirstProblem = routeLoader$(async () => {
-  return getRandomProblem();
+export const useFirstProblem = routeLoader$(async function (
+  this: RequestEventBase,
+) {
+  return getRandomProblem.bind(this)();
 });
 
 type Problem = {

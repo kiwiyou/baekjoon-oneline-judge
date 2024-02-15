@@ -46,7 +46,6 @@
     "wrangler": "^3.0.0"
   },
   "dependencies": {
-    "cheerio": "1.0.0-rc.12",
-    "redis": "^4.6.13"
+    "cheerio": "1.0.0-rc.12"
   }
 }
