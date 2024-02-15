@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "baekjoon-online-judge",
+  "short_name": "Baekjoon Online Judge",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "한 문장으로 BOJ 문제를 맞혀 보자!"
+}

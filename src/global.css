@@ -1,0 +1,161 @@
+.nav {
+    padding: 0.5rem;
+    border-bottom: 2px solid #eee;
+    color: #333;
+}
+
+.container {
+    max-width: 1170px;
+    margin: auto;
+}
+
+.content {
+    padding: 1rem;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 0.125rem;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.selected {
+    padding: 0.625rem 1rem;
+    background: #428bca;
+    color: #fff;
+}
+
+.question {
+    background: transparent;
+    border: none;
+    font-size: inherit;
+}
+
+.id {
+    width: 3rem;
+    text-align: center;
+    padding: 0;
+    color: inherit;
+}
+
+.id::placeholder {
+    color: #eee;
+}
+
+.title {
+    font-size: 2.25rem;
+    width: 100%;
+    margin-bottom: 0.625rem;
+}
+
+.title::placeholder {
+    color: #777;
+}
+
+.ghost {
+    padding-left: 0.625rem;
+    padding-right: 0.625rem;
+    height: 100%;
+    display: inline-block;
+    color: #333;
+    border: none;
+    background: #fff;
+}
+
+.ghost:hover {
+    background: #eee;
+    color: #428bca;
+}
+
+.header {
+    margin-top: 2.5rem;
+    margin-bottom: 1.125rem;
+    border-bottom: 1px solid #eee;
+}
+
+.problem {
+    margin-bottom: 1.5rem;
+}
+
+.sep {
+    margin-top: 0.625rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px dotted #eee;
+}
+
+.legend {
+    font-weight: normal;
+    font-size: 1.5rem;
+    padding-bottom: 0.25rem;
+    color: #333;
+    display: inline;
+    border-bottom: 2px solid #428bca;
+}
+
+.table {
+    font-size: 0.875rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 12rem 12rem;
+    gap: 1px;
+}
+
+.table>* {
+    padding: 0.5rem;
+    outline: 1px solid #ddd;
+}
+
+.table> :nth-child(8n+5),
+.table> :nth-child(8n+6),
+.table> :nth-child(8n+7),
+.table> :nth-child(8n+8) {
+    background: #eee;
+}
+
+.th {
+    font-weight: bold;
+}
+
+.td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ac {
+    color: #009874;
+    font-weight: bold;
+}
+
+.wa {
+    color: #dd4124;
+}
+
+body,
+input,
+button,
+select,
+textarea,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.purchase span {
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans CJK KR', 'Noto Sans KR', '나눔바른고딕', '나눔고딕', '맑은고딕', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !important;
+}
