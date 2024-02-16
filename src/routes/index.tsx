@@ -10,8 +10,8 @@ import {
   routeLoader$,
   server$,
 } from "@builder.io/qwik-city";
-import { EnvGetter } from "@builder.io/qwik-city/middleware/request-handler";
-import { Redis } from "@upstash/redis";
+import type { EnvGetter } from "@builder.io/qwik-city/middleware/request-handler";
+import { Redis } from "@upstash/redis/cloudflare";
 import * as cheerio from "cheerio";
 
 type Submission = {
