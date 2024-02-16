@@ -14,14 +14,9 @@ import {
 import qwikCityPlan from "@qwik-city-plan";
 import { manifest } from "@qwik-client-manifest";
 import render from "./entry.ssr";
-import type { KVNamespace } from "@cloudflare/workers-types";
 
 declare global {
-  interface QwikCityPlatform extends PlatformCloudflarePages {
-    env: {
-      BOJ: KVNamespace;
-    };
-  }
+  interface QwikCityPlatform extends PlatformCloudflarePages {}
 }
 
 const fetch = createQwikCity({ render, qwikCityPlan, manifest });

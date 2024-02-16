@@ -1,3 +1,7 @@
+body {
+    background: #fff;
+}
+
 .nav {
     padding: 0.5rem;
     border-bottom: 2px solid #eee;
@@ -108,8 +112,10 @@
 .table {
     font-size: 0.875rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 12rem 12rem;
+    grid-template-columns: minmax(15rem, 1fr) minmax(15rem, 1fr) 12rem 12rem;
     gap: 1px;
+    overflow-x: auto;
+    outline: 1px solid #ddd;
 }
 
 .table>* {

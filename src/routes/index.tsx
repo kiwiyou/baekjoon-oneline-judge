@@ -10,7 +10,8 @@ import {
   routeLoader$,
   server$,
 } from "@builder.io/qwik-city";
-import type { KVNamespace } from "@cloudflare/workers-types";
+import { EnvGetter } from "@builder.io/qwik-city/middleware/request-handler";
+import { Redis } from "@upstash/redis";
 import * as cheerio from "cheerio";
 
 type Submission = {
@@ -27,14 +28,18 @@ function randomId() {
 }
 
 export const getRandomProblem = async (
-  BOJ: KVNamespace,
+  env: EnvGetter,
 ): Promise<Problem | null> => {
+  const BOJ = new Redis({
+    url: env.get("UPSTASH_REDIS_REST_URL")!,
+    token: env.get("UPSTASH_REDIS_REST_TOKEN")!,
+  });
   const maxId = +(import.meta.env.PUBLIC_MAX_ID || "30000");
   // eslint-disable-next-line
   while (true) {
     const id = (Math.floor(Math.random() * (maxId - 1000)) + 1000).toString();
-    let text = (await BOJ.get(id)) || null;
-    let title = (await BOJ.get(`${id}-title`)) || null;
+    let text = (await BOJ.get<string>(id)) || null;
+    let title = (await BOJ.get<string>(`${id}-title`)) || null;
     if (text === null || title === null) {
       const request = await fetch(`https://www.acmicpc.net/problem/${id}`);
       if (request.status !== 200) continue;
@@ -43,8 +48,8 @@ export const getRandomProblem = async (
       if (!text) return null;
       title = $("#problem_title").prop("innerHTML");
       if (!title) return null;
-      await BOJ.put(id, text);
-      await BOJ.put(`${id}-title`, title);
+      await BOJ.set(id, text);
+      await BOJ.set(`${id}-title`, title);
     }
     const lines = [];
     for (const match of text.matchAll(/[^.。．]+[.。．]/g)) {
@@ -63,12 +68,12 @@ export const getRandomProblem = async (
   }
 };
 
-export const useFirstProblem = routeLoader$(async ({ platform }) => {
-  return getRandomProblem(platform.env.BOJ);
+export const useFirstProblem = routeLoader$(async ({ env }) => {
+  return getRandomProblem(env);
 });
 
 const getRandomProblemAction = server$(async function () {
-  return getRandomProblem(this.platform.env.BOJ);
+  return getRandomProblem(this.env);
 });
 
 type Problem = {
