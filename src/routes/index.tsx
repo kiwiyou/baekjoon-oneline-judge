@@ -22,11 +22,6 @@ type Submission = {
   time: Date;
 };
 
-function randomId() {
-  const maxId = +(import.meta.env.PUBLIC_MAX_ID || "30000");
-  return Math.floor(Math.random() * (maxId - 1000)) + 1000;
-}
-
 export const getRandomProblem = async (
   env: EnvGetter,
 ): Promise<Problem | null> => {
@@ -150,7 +145,7 @@ export default component$(() => {
             minLength={4}
             maxLength={5}
             inputMode="numeric"
-            placeholder={randomId().toString()}
+            placeholder="????"
           />
           번
         </li>
